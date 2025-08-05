@@ -204,35 +204,3 @@ END;
   </script>
 </body>
 </html>
-let jsonArray = [];
-
-document.getElementById('displayBtn').disabled = true;
-
-document.getElementById('submitBtn').addEventListener('click', function() {
-    const firstName = document.getElementById('firstName').value.trim();
-    const secondName = document.getElementById('secondName').value.trim();
-
-    if (firstName === '' || secondName === '') {
-        alert("Please enter both names.");
-        return;
-    }
-
-    jsonArray.push({ FirstName: firstName, LastName: secondName });
-
-    // Clear input fields
-    document.getElementById('firstName').value = '';
-    document.getElementById('secondName').value = '';
-
-    // Enable Display Button after submit
-    document.getElementById('displayBtn').disabled = false;
-
-    alert("Data saved to JSON Array!");
-});
-
-document.getElementById('displayBtn').addEventListener('click', function() {
-    if (jsonArray.length === 0) {
-        alert("No data to display. Please submit entries first.");
-    } else {
-        document.getElementById('jsonData').innerText = JSON.stringify(jsonArray, null, 2);
-    }
-});
