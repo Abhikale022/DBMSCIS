@@ -1,39 +1,45 @@
 import React, { useState } from 'react';
 
-const CounterBoxes = () => {
+const CounterInput = () => {
   const [count, setCount] = useState(0);
 
   const handleNext = () => {
-    setCount(count + 1);
+    setCount(prev => prev + 1);
   };
 
   const handlePrev = () => {
-    setCount(count - 1);
+    setCount(prev => prev - 1);
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    // Allow only numbers or blank input
+    if (value === '' || /^[0-9-]+$/.test(value)) {
+      setCount(Number(value));
+    }
   };
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '30px' }}>
-        <div style={boxStyle}>{count - 1}</div>
-        <div style={{ ...boxStyle, backgroundColor: '#d1e7dd', fontWeight: 'bold' }}>{count}</div>
-        <div style={boxStyle}>{count + 1}</div>
+      <input
+        type="text"
+        value={count}
+        onChange={handleChange}
+        style={inputStyle}
+      />
+      <div style={{ marginTop: '20px' }}>
+        <button onClick={handlePrev} style={buttonStyle}>Prev</button>
+        <button onClick={handleNext} style={buttonStyle}>Next</button>
       </div>
-      <button onClick={handlePrev} style={buttonStyle}>Prev</button>
-      <button onClick={handleNext} style={buttonStyle}>Next</button>
     </div>
   );
 };
 
-const boxStyle = {
+const inputStyle = {
   width: '100px',
-  height: '100px',
-  backgroundColor: '#f0f0f0',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontSize: '24px',
-  border: '1px solid #ccc',
-  borderRadius: '8px',
+  height: '40px',
+  fontSize: '20px',
+  textAlign: 'center',
 };
 
 const buttonStyle = {
@@ -42,4 +48,4 @@ const buttonStyle = {
   fontSize: '16px',
 };
 
-export default CounterBoxes;
+export default CounterInput;
