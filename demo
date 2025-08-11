@@ -1,51 +1,87 @@
-import React, { useState } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Chartered Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-const CounterInput = () => {
-  const [count, setCount] = useState(0);
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
 
-  const handleNext = () => {
-    setCount(prev => prev + 1);
-  };
+        .logo {
+            width: 120px;
+            margin-bottom: 10px;
+        }
 
-  const handlePrev = () => {
-    setCount(prev => prev - 1);
-  };
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    // Allow only numbers or blank input
-    if (value === '' || /^[0-9-]+$/.test(value)) {
-      setCount(Number(value));
-    }
-  };
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-  return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <input
-        type="text"
-        value={count}
-        onChange={handleChange}
-        style={inputStyle}
-      />
-      <div style={{ marginTop: '20px' }}>
-        <button onClick={handlePrev} style={buttonStyle}>Prev</button>
-        <button onClick={handleNext} style={buttonStyle}>Next</button>
-      </div>
+        .forgot-link {
+            display: block;
+            text-align: right;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #0071ce;
+            text-decoration: none;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #0071ce;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Standard_Chartered_logo.svg" alt="Standard Chartered" class="logo">
+        <h2>Login</h2>
+        <form>
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <a href="#" class="forgot-link">→ Forgot Username / Password</a>
+            <button type="submit">Login</button>
+        </form>
     </div>
-  );
-};
 
-const inputStyle = {
-  width: '100px',
-  height: '40px',
-  fontSize: '20px',
-  textAlign: 'center',
-};
-
-const buttonStyle = {
-  margin: '0 10px',
-  padding: '10px 20px',
-  fontSize: '16px',
-};
-
-export default CounterInput;
+</body>
+</html>
