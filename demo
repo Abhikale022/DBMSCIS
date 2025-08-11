@@ -3,105 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Standard Chartered Login</title>
+    <title>Credit Card Application Status</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
+            background-color: #f8f9fa;
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
-
-        .login-container {
+        .status-card {
             background: white;
+            padding: 20px;
             border-radius: 10px;
-            padding: 30px;
-            width: 320px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-
-        .logo {
-            width: 120px;
-            margin-bottom: 10px;
+        .timeline {
+            border-left: 3px solid #e9ecef;
+            margin-left: 15px;
+            padding-left: 15px;
         }
-
-        h2 {
+        .timeline-item {
+            position: relative;
             margin-bottom: 20px;
-            color: #333;
         }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -23px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #198754;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #198754;
         }
-
-        .forgot-link {
-            display: block;
-            text-align: right;
-            margin-bottom: 15px;
-            font-size: 12px;
-            color: #0071ce;
-            text-decoration: none;
+        .timeline-item.pending::before {
+            background-color: #fff;
+            border: 2px solid #0d6efd;
+            box-shadow: 0 0 0 2px #0d6efd;
         }
-
-        .forgot-link:hover {
-            text-decoration: underline;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
+        .action-btn {
+            background-color: #198754;
+            color: white;
             border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
         }
-
-        .btn-login {
-            background-color: #0071ce;
-            color: white;
+        .action-btn:hover {
+            background-color: #157347;
         }
-
-        .btn-login:hover {
-            background-color: #005fa3;
-        }
-
-        .btn-signup {
-            background-color: #00a651;
-            color: white;
-        }
-
-        .btn-signup:hover {
-            background-color: #008a43;
+        .logo {
+            width: 150px;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
+<div class="container py-4">
+    <div class="text-center mb-4">
         <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Standard_Chartered_logo.svg" alt="Standard Chartered" class="logo">
-        <h2>Login</h2>
-        <form>
-            <input type="text" placeholder="Username" required>
-            <input type="password" placeholder="Password" required>
-            <a href="#" class="forgot-link">→ Forgot Username / Password</a>
-            <div class="button-group">
-                <button type="submit" class="btn btn-login">Login</button>
-                <button type="button" class="btn btn-signup">Sign Up</button>
-            </div>
-        </form>
+        <h4 class="mt-2">Credit Card Application Status</h4>
+        <p class="text-muted">Track your application progress. We'll keep you updated at every step.</p>
     </div>
 
+    <!-- Progress Bar -->
+    <div class="status-card mb-4">
+        <div class="d-flex justify-content-between">
+            <small>Overall Progress</small>
+            <small class="text-primary">In Progress</small>
+        </div>
+        <div class="text-muted">Step 3 of 4 completed</div>
+        <div class="progress mt-2">
+            <div class="progress-bar bg-primary" style="width: 75%;"></div>
+        </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="status-card mb-4">
+        <h6><i class="bi bi-clock-history"></i> Application Timeline</h6>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h6>Application Submitted</h6>
+                <p class="text-muted mb-0">Your credit card application has been successfully received</p>
+                <small class="text-secondary">Instant</small>
+                <div class="text-end"><small class="text-muted">Dec 15, 2024</small></div>
+            </div>
+            <div class="timeline-item">
+                <h6>Application Processing</h6>
+                <p class="text-muted mb-0">We are reviewing your application and verifying your information</p>
+                <small class="text-secondary">1-2 business days</small>
+                <div class="text-end"><small class="text-muted">Dec 16, 2024</small></div>
+            </div>
+            <div class="timeline-item">
+                <h6>Credit Card Offered</h6>
+                <p class="text-muted mb-0">Congratulations! Your application has been approved</p>
+                <small class="text-secondary">2-3 business days</small>
+                <div class="text-end"><small class="text-muted">Dec 18, 2024</small></div>
+            </div>
+            <div class="timeline-item pending">
+                <h6>Application Accepted</h6>
+                <p class="text-muted mb-0">Accept your offer to receive your new credit card</p>
+                <span class="badge bg-warning text-dark">Action Required</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Step -->
+    <div class="status-card mb-4">
+        <div class="d-flex align-items-center mb-2">
+            <span class="me-2 text-success"><i class="bi bi-check-circle-fill"></i></span>
+            <h6 class="mb-0">Ready for Final Step!</h6>
+        </div>
+        <p class="text-muted mb-3">Your credit card application has been approved. Accept your offer to proceed with card delivery.</p>
+        <button class="action-btn">Accept Credit Card Offer</button>
+        <button class="btn btn-outline-secondary ms-2">Review Terms & Conditions</button>
+    </div>
+
+    <!-- Help Section -->
+    <div class="status-card text-center">
+        <h6 class="mb-3">Need Help?</h6>
+        <div class="row">
+            <div class="col">
+                <p><i class="bi bi-telephone-fill text-primary"></i> Call Us</p>
+            </div>
+            <div class="col">
+                <p><i class="bi bi-chat-dots-fill text-primary"></i> Live Chat</p>
+            </div>
+            <div class="col">
+                <p><i class="bi bi-envelope-fill text-primary"></i> Email Support</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
