@@ -1,6 +1,38 @@
 import java.util.Scanner;
 import java.util.Random;
 
+// ===== Custom Exceptions =====
+class InvalidNameException extends Exception {
+    public InvalidNameException(String message) {
+        super(message);
+    }
+}
+
+class InvalidEmailException extends Exception {
+    public InvalidEmailException(String message) {
+        super(message);
+    }
+}
+
+class InvalidContactException extends Exception {
+    public InvalidContactException(String message) {
+        super(message);
+    }
+}
+
+class InvalidAccountTypeException extends Exception {
+    public InvalidAccountTypeException(String message) {
+        super(message);
+    }
+}
+
+class InvalidCustomerIdException extends Exception {
+    public InvalidCustomerIdException(String message) {
+        super(message);
+    }
+}
+
+// ===== Customer Class =====
 class Customer {
     int customerId;
     String name;
@@ -8,10 +40,9 @@ class Customer {
     String contact;
     String accountType;
 
-    // Constructor
     public Customer(String name, String email, String contact, String accountType) {
         Random rand = new Random();
-        this.customerId = rand.nextInt(9000) + 1000; // 4-digit random ID
+        this.customerId = rand.nextInt(9000) + 1000;
         this.name = name;
         this.email = email;
         this.contact = contact;
@@ -28,34 +59,72 @@ class Customer {
     }
 }
 
+// ===== Bank Application =====
 public class BankApplication {
-    static Customer[] customers = new Customer[100]; // Fixed size array
-    static int count = 0; // Keeps track of number of customers
+    static Customer[] customers = new Customer[100];
+    static int count = 0;
     static Scanner sc = new Scanner(System.in);
 
-    // Add Customer
-    public static void addCustomer() {
-        if (count >= customers.length) {
-            System.out.println("Customer list is full. Cannot add more customers.");
-            return;
+    // === Validation Methods ===
+    public static void validateName(String name) throws InvalidNameException {
+        if (!name.matches("[a-zA-Z ]+")) {
+            throw new InvalidNameException("Name can only have alphabets");
         }
-        System.out.println("Please enter customer details :");
-        System.out.print("Enter name : ");
-        String name = sc.nextLine();
-        System.out.print("Enter email : ");
-        String email = sc.nextLine();
-        System.out.print("Enter contact : ");
-        String contact = sc.nextLine();
-        System.out.print("Enter account type (Savings or Current): ");
-        String accountType = sc.nextLine();
-
-        Customer c = new Customer(name, email, contact, accountType);
-        customers[count] = c;
-        count++;
-        System.out.println("Customer added successfully with customer id " + c.customerId);
     }
 
-    // Display Customers
+    public static void validateEmail(String email) throws InvalidEmailException {
+        if (!email.matches("^[\\w-\\.]+@[\\w-]+\\.[a-z]{2,4}$")) {
+            throw new InvalidEmailException("Invalid email format");
+        }
+    }
+
+    public static void validateContact(String contact) throws InvalidContactException {
+        if (!contact.matches("\\d{10}")) {
+            throw new InvalidContactException("Contact number must have exactly 10 digits");
+        }
+    }
+
+    public static void validateAccountType(String accountType) throws InvalidAccountTypeException {
+        if (!(accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Current"))) {
+            throw new InvalidAccountTypeException("Account type must be either Savings or Current");
+        }
+    }
+
+    // === Add Customer ===
+    public static void addCustomer() {
+        try {
+            if (count >= customers.length) {
+                System.out.println("Customer list is full.");
+                return;
+            }
+
+            System.out.println("Please enter customer details :");
+            System.out.print("Enter name : ");
+            String name = sc.nextLine();
+            validateName(name);
+
+            System.out.print("Enter email : ");
+            String email = sc.nextLine();
+            validateEmail(email);
+
+            System.out.print("Enter contact : ");
+            String contact = sc.nextLine();
+            validateContact(contact);
+
+            System.out.print("Enter account type (Savings or Current): ");
+            String accountType = sc.nextLine();
+            validateAccountType(accountType);
+
+            Customer c = new Customer(name, email, contact, accountType);
+            customers[count++] = c;
+            System.out.println("Customer added successfully with customer id " + c.customerId);
+
+        } catch (InvalidNameException | InvalidEmailException | InvalidContactException | InvalidAccountTypeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // === Display Customers ===
     public static void displayCustomers() {
         if (count == 0) {
             System.out.println("No customers found.");
@@ -66,40 +135,47 @@ public class BankApplication {
         }
     }
 
-    // Search Customer
+    // === Search Customer ===
     public static void searchCustomer() {
-        System.out.print("Please enter customer id : ");
-        int id = sc.nextInt();
-        sc.nextLine(); // clear buffer
+        try {
+            System.out.print("Please enter customer id : ");
+            String input = sc.nextLine();
 
-        boolean found = false;
-        for (int i = 0; i < count; i++) {
-            if (customers[i].customerId == id) {
-                System.out.println(customers[i]);
-                found = true;
-                break;
+            if (!input.matches("\\d+")) {
+                throw new InvalidCustomerIdException("Customer ID must be an integer");
             }
-        }
-        if (!found) {
-            System.out.println("Customer not found.");
+
+            int id = Integer.parseInt(input);
+            boolean found = false;
+
+            for (int i = 0; i < count; i++) {
+                if (customers[i].customerId == id) {
+                    System.out.println(customers[i]);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("Customer not found.");
+            }
+        } catch (InvalidCustomerIdException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    // Delete Customer
+    // === Delete Customer ===
     public static void deleteCustomer() {
         System.out.print("Please enter customer id to delete: ");
         int id = sc.nextInt();
-        sc.nextLine(); // clear buffer
+        sc.nextLine();
 
         boolean deleted = false;
         for (int i = 0; i < count; i++) {
             if (customers[i].customerId == id) {
-                // Shift all customers to left
                 for (int j = i; j < count - 1; j++) {
                     customers[j] = customers[j + 1];
                 }
-                customers[count - 1] = null; // last becomes null
-                count--;
+                customers[--count] = null;
                 deleted = true;
                 System.out.println("Customer deleted successfully.");
                 break;
@@ -122,7 +198,7 @@ public class BankApplication {
             System.out.println("5 for Exit the bank application");
 
             choice = sc.nextInt();
-            sc.nextLine(); // clear buffer
+            sc.nextLine();
 
             switch (choice) {
                 case 1 -> addCustomer();
