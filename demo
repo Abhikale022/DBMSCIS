@@ -1,9 +1,34 @@
-export default function Home(){
-  return (
-    <div className="card">
-      <h2>Welcome to TopGuns Bank</h2>
-      <p>This console lets admins manage customer records and view their account holdings.</p>
-      <p>Go to the <strong>Customers</strong> tab to view, create, edit, or delete customers.</p>
-    </div>
-  )
+const KEY = 'tgbank_customers_v1'
+
+export function loadCustomers(){
+  const raw = localStorage.getItem(KEY)
+  return raw ? JSON.parse(raw) : []
+}
+
+export function saveCustomers(list){
+  localStorage.setItem(KEY, JSON.stringify(list))
+}
+
+export function seedIfEmpty(){
+  if (loadCustomers().length) return
+  const seed = [
+    {id:1, firstName:'Sundar', lastName:'Pichai', email:'sundar.pichai@google.com', phone:'',
+      accounts:[
+        {accountNo:'1001999', type:'SAVINGS_ACCOUNT', branch:'Bellandur', balance:1000},
+        {accountNo:'1001888', type:'SAVINGS_ACCOUNT', branch:'Indira Nagar', balance:2000}
+      ]},
+    {id:2, firstName:'Jeff', lastName:'Bezos', email:'jeff.bezos@amazon.com', phone:'',
+      accounts:[{accountNo:'1002666', type:'CURRENT_ACCOUNT', branch:'Koramangala', balance:50000}]},
+    {id:3, firstName:'Satya', lastName:'Nadella', email:'satya.nadella@microsoft.com', phone:'',
+      accounts:[{accountNo:'1003777', type:'SAVINGS_ACCOUNT', branch:'Whitefield', balance:15000}]},
+    {id:4, firstName:'Sergey', lastName:'Brin', email:'sergey.brin@google.com', phone:'',
+      accounts:[{accountNo:'1004888', type:'CURRENT_ACCOUNT', branch:'HSR', balance:30000}]},
+    {id:5, firstName:'Larry', lastName:'Page', email:'larry.page@google.com', phone:'',
+      accounts:[{accountNo:'1005111', type:'SAVINGS_ACCOUNT', branch:'MG Road', balance:2500}]}
+  ]
+  saveCustomers(seed)
+}
+
+export function nextId(list){
+  return list.length ? Math.max(...list.map(c=>c.id)) + 1 : 1
 }
