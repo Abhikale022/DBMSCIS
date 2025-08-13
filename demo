@@ -1,14 +1,9 @@
-export default function About(){
+export default function Home(){
   return (
     <div className="card">
-      <h2>About this App</h2>
-      <ul>
-        <li>React + React Router</li>
-        <li>Client‑side storage (localStorage)</li>
-        <li>Customers list with Show / Edit / Delete</li>
-        <li>Create/Edit form with validation</li>
-        <li>Details page shows account holdings</li>
-      </ul>
+      <h2>Welcome to TopGuns Bank</h2>
+      <p>This console lets admins manage customer records and view their account holdings.</p>
+      <p>Go to the <strong>Customers</strong> tab to view, create, edit, or delete customers.</p>
     </div>
   )
 }
