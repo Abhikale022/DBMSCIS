@@ -1,34 +1,45 @@
-const KEY = 'tgbank_customers_v1'
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import About from './pages/About.jsx'
+import CustomersList from './pages/CustomersList.jsx'
+import CustomerDetails from './pages/CustomerDetails.jsx'
+import CustomerForm from './pages/CustomerForm.jsx'
+import { seedIfEmpty } from './utils/storage.js'
+import './index.css'
 
-export function loadCustomers(){
-  const raw = localStorage.getItem(KEY)
-  return raw ? JSON.parse(raw) : []
-}
+export default function App(){
+  const navigate = useNavigate()
+  seedIfEmpty()
 
-export function saveCustomers(list){
-  localStorage.setItem(KEY, JSON.stringify(list))
-}
+  return (
+    <>
+      <header className="brandbar">
+        <div className="container" style={{paddingTop:0,paddingBottom:0}}>
+          <nav>
+            <ul>
+              <div className="title">TopGuns Bank</div>
+              <li><NavLink to="/" end>Home</NavLink></li>
+              <li><NavLink to="/customers">Customers</NavLink></li>
+              <li><NavLink to="/about">About</NavLink></li>
+              <li><a href="#" onClick={(e)=>{e.preventDefault(); alert('SCB: Secure Customer Base console');}}>SCB</a></li>
+              <li style={{marginLeft:'auto'}}>
+                <button className="btn success" onClick={()=>navigate('/customers/new')}>Create new customer</button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
 
-export function seedIfEmpty(){
-  if (loadCustomers().length) return
-  const seed = [
-    {id:1, firstName:'Sundar', lastName:'Pichai', email:'sundar.pichai@google.com', phone:'',
-      accounts:[
-        {accountNo:'1001999', type:'SAVINGS_ACCOUNT', branch:'Bellandur', balance:1000},
-        {accountNo:'1001888', type:'SAVINGS_ACCOUNT', branch:'Indira Nagar', balance:2000}
-      ]},
-    {id:2, firstName:'Jeff', lastName:'Bezos', email:'jeff.bezos@amazon.com', phone:'',
-      accounts:[{accountNo:'1002666', type:'CURRENT_ACCOUNT', branch:'Koramangala', balance:50000}]},
-    {id:3, firstName:'Satya', lastName:'Nadella', email:'satya.nadella@microsoft.com', phone:'',
-      accounts:[{accountNo:'1003777', type:'SAVINGS_ACCOUNT', branch:'Whitefield', balance:15000}]},
-    {id:4, firstName:'Sergey', lastName:'Brin', email:'sergey.brin@google.com', phone:'',
-      accounts:[{accountNo:'1004888', type:'CURRENT_ACCOUNT', branch:'HSR', balance:30000}]},
-    {id:5, firstName:'Larry', lastName:'Page', email:'larry.page@google.com', phone:'',
-      accounts:[{accountNo:'1005111', type:'SAVINGS_ACCOUNT', branch:'MG Road', balance:2500}]}
-  ]
-  saveCustomers(seed)
-}
-
-export function nextId(list){
-  return list.length ? Math.max(...list.map(c=>c.id)) + 1 : 1
+      <main className="container">
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/customers" element={<CustomersList/>} />
+          <Route path="/customers/new" element={<CustomerForm/>} />
+          <Route path="/customers/:id" element={<CustomerDetails/>} />
+          <Route path="/customers/:id/edit" element={<CustomerForm/>} />
+        </Routes>
+      </main>
+    </>
+  )
 }
