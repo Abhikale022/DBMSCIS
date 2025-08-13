@@ -1,33 +1,13 @@
-:root{
-  --brand:#2c3e50;
-  --brand-light:#3f556f;
-  --accent:#3498db;
-  --danger:#e74c3c;
-  --ok:#2ecc71;
-  --bg:#f6f8fb;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial; background:var(--bg); color:#222;}
-a{text-decoration:none;color:var(--accent);}
-.container{max-width:1024px;margin:0 auto;padding:24px;}
-header.brandbar{background:var(--brand); color:#fff; padding:16px 0;}
-nav ul{list-style:none;display:flex;gap:16px;margin:0;padding:0;align-items:center;}
-nav a{color:#cfe6ff}
-nav a.active{color:#fff;font-weight:600;border-bottom:2px solid #fff}
-.title{font-weight:700; font-size:20px; margin-right:auto; padding-left:16px; color:#fff}
-.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06); padding:16px; margin:16px 0;}
-table{width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.04);}
-th,td{padding:12px 10px; border-bottom:1px solid #eee; text-align:left; font-size:14px;}
-th{background:#f0f4f8; text-transform:uppercase; font-size:12px; letter-spacing:.04em;}
-tr:last-child td{border-bottom:none}
-.btn{display:inline-block; padding:8px 12px; border-radius:6px; border:1px solid transparent; cursor:pointer; font-size:14px; background:#eef2f6;}
-.btn.primary{background:var(--accent); color:#fff}
-.btn.success{background:var(--ok); color:#fff}
-.btn.danger{background:var(--danger); color:#fff}
-.btn.link{background:transparent; color:var(--accent); padding:0; border:none}
-.actions{display:flex; gap:12px}
-.grid{display:grid; grid-template-columns:1fr 1fr; gap:24px}
-.field{display:flex; flex-direction:column; gap:6px; margin-bottom:12px}
-input{padding:10px 12px; border-radius:6px; border:1px solid #d8dee6; font-size:14px}
-.error{color:var(--danger); font-size:12px}
-.breadcrumb{margin:8px 0}
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+)
