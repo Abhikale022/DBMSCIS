@@ -1,47 +1,35 @@
-package com.example.demo.model;
+package com.example.demo.repository;
 
-public class Customer {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String active;
-    private String password;
+import com.example.demo.model.Customer;
+import org.springframework.stereotype.Repository;
 
-    // Constructors
-    public Customer() {}
+import java.util.*;
 
-    public Customer(int id, String firstName, String lastName, String email,
-                    String phone, String active, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.active = active;
-        this.password = password;
+@Repository
+public class InMemoryCustomerRepository {
+    private Map<Integer, Customer> customerMap = new HashMap<>();
+
+    public InMemoryCustomerRepository() {
+        // Sample data
+        customerMap.put(1, new Customer(1, "Jeff", "Bezos", "jeff.bezos@amazon.com", "8787898", "false", "pass1"));
+        customerMap.put(2, new Customer(2, "Jack", "Maa", "jack.maa@alibaba.com", "454568989", "false", "pass2"));
+        customerMap.put(3, new Customer(3, "Sundar", "Pichai", "sundar.pichai@google.com", "667788", "false", "pass3"));
     }
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public List<Customer> findAll() {
+        return new ArrayList<>(customerMap.values());
+    }
 
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public Optional<Customer> findById(int id) {
+        return Optional.ofNullable(customerMap.get(id));
+    }
 
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public Customer save(Customer customer) {
+        customerMap.put(customer.getId(), customer);
+        return customer;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-
-    public String getActive() { return active; }
-    public void setActive(String active) { this.active = active; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void deleteById(int id) {
+        customerMap.remove(id);
+    }
 }
