@@ -1,35 +1,51 @@
-package com.example.demo.repository;
+package com.example.demo.controller;
 
 import com.example.demo.model.Customer;
-import org.springframework.stereotype.Repository;
+import com.example.demo.repository.InMemoryCustomerRepository;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 
-@Repository
-public class InMemoryCustomerRepository {
-    private Map<Integer, Customer> customerMap = new HashMap<>();
+@RestController
+@RequestMapping("/api/customers")
+public class CustomerController {
 
-    public InMemoryCustomerRepository() {
-        // Sample data
-        customerMap.put(1, new Customer(1, "Jeff", "Bezos", "jeff.bezos@amazon.com", "8787898", "false", "pass1"));
-        customerMap.put(2, new Customer(2, "Jack", "Maa", "jack.maa@alibaba.com", "454568989", "false", "pass2"));
-        customerMap.put(3, new Customer(3, "Sundar", "Pichai", "sundar.pichai@google.com", "667788", "false", "pass3"));
+    private final InMemoryCustomerRepository repository;
+
+    public CustomerController(InMemoryCustomerRepository repository) {
+        this.repository = repository;
     }
 
-    public List<Customer> findAll() {
-        return new ArrayList<>(customerMap.values());
+    // GET all customers
+    @GetMapping
+    public List<Customer> getAllCustomers() {
+        return repository.findAll();
     }
 
-    public Optional<Customer> findById(int id) {
-        return Optional.ofNullable(customerMap.get(id));
+    // GET one customer
+    @GetMapping("/{id}")
+    public Customer getCustomerById(@PathVariable int id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
     }
 
-    public Customer save(Customer customer) {
-        customerMap.put(customer.getId(), customer);
-        return customer;
+    // CREATE customer
+    @PostMapping
+    public Customer createCustomer(@RequestBody Customer customer) {
+        return repository.save(customer);
     }
 
-    public void deleteById(int id) {
-        customerMap.remove(id);
+    // UPDATE customer
+    @PutMapping("/{id}")
+    public Customer updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
+        customer.setId(id); // Ensure id matches
+        return repository.save(customer);
+    }
+
+    // DELETE customer
+    @DeleteMapping("/{id}")
+    public String deleteCustomer(@PathVariable int id) {
+        repository.deleteById(id);
+        return "Customer with id " + id + " deleted!";
     }
 }
