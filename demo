@@ -1,17 +1,25 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-public class ReportCard {
-    private int rollno;
-    private String name;
-    private String grade;
+import com.example.demo.model.Student;
+import com.example.demo.model.ReportCard;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-    public ReportCard(int rollno, String name, String grade) {
-        this.rollno = rollno;
-        this.name = name;
-        this.grade = grade;
+@RestController
+@RequestMapping("/api")
+public class StudentController {
+
+    @PostMapping("/report")
+    public ResponseEntity<ReportCard> whocares(@RequestBody Student student) {
+        String grade;
+
+        if (student.getScience() > 75 && student.getMaths() > 75) {
+            grade = "Good";
+            return new ResponseEntity<>(new ReportCard(student.getRollno(), student.getName(), grade), HttpStatus.OK);
+        } else {
+            grade = "Average";
+            return new ResponseEntity<>(new ReportCard(student.getRollno(), student.getName(), grade), HttpStatus.NOT_ACCEPTABLE);
+        }
     }
-
-    public int getRollno() { return rollno; }
-    public String getName() { return name; }
-    public String getGrade() { return grade; }
 }
