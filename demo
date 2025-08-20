@@ -1,11 +1,21 @@
-package com.example.demo;
+package com.example.demo.model;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+public class Student {
+    private int rollno;
+    private String name;
+    private int science;
+    private int maths;
 
-@SpringBootApplication
-public class DemoApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
+    // Getters and Setters
+    public int getRollno() { return rollno; }
+    public void setRollno(int rollno) { this.rollno = rollno; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getScience() { return science; }
+    public void setScience(int science) { this.science = science; }
+
+    public int getMaths() { return maths; }
+    public void setMaths(int maths) { this.maths = maths; }
 }
