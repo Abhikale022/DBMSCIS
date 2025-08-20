@@ -1,35 +1,11 @@
-package com.example.bankcustomer.model;
+package com.example.bankcustomer.dao;
 
-public class Customer {
-    private int id;
-    private String name;
-    private String email;
-    private String contact;
-    private String accountType;
+import com.example.bankcustomer.model.Customer;
+import java.util.List;
 
-    public Customer() {}
-
-    public Customer(int id, String name, String email, String contact, String accountType) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.contact = contact;
-        this.accountType = accountType;
-    }
-
-    // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getContact() { return contact; }
-    public void setContact(String contact) { this.contact = contact; }
-
-    public String getAccountType() { return accountType; }
-    public void setAccountType(String accountType) { this.accountType = accountType; }
+public interface CustomerDAO {
+    void addCustomer(Customer customer);
+    List<Customer> getAllCustomers();
+    Customer getCustomerById(int id);
+    void deleteCustomer(int id);
 }
