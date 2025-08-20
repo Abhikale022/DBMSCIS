@@ -1,21 +1,17 @@
 package com.example.demo.model;
 
-public class Student {
+public class ReportCard {
     private int rollno;
     private String name;
-    private int science;
-    private int maths;
+    private String grade;
 
-    // Getters and Setters
+    public ReportCard(int rollno, String name, String grade) {
+        this.rollno = rollno;
+        this.name = name;
+        this.grade = grade;
+    }
+
     public int getRollno() { return rollno; }
-    public void setRollno(int rollno) { this.rollno = rollno; }
-
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public int getScience() { return science; }
-    public void setScience(int science) { this.science = science; }
-
-    public int getMaths() { return maths; }
-    public void setMaths(int maths) { this.maths = maths; }
+    public String getGrade() { return grade; }
 }
