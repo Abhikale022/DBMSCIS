@@ -1,37 +1,11 @@
-package com.example.bankcustomer.controller;
+package com.example.bankcustomer.model;
 
-import com.example.bankcustomer.dao.CustomerDAO;
-import com.example.bankcustomer.dao.CustomerDAOImpl;
-import com.example.bankcustomer.model.Customer;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/customers")
-public class CustomerController {
-
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
-
-    @PostMapping
-    public String addCustomer(@RequestBody Customer customer) {
-        customerDAO.addCustomer(customer);
-        return "Customer added successfully!";
-    }
-
-    @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerDAO.getAllCustomers();
-    }
-
-    @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable int id) {
-        return customerDAO.getCustomerById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteCustomer(@PathVariable int id) {
-        customerDAO.deleteCustomer(id);
-        return "Deleted customer with id = " + id;
+@SpringBootApplication(scanBasePackages = "com.example.bankcustomer")
+public class BankCustomerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(BankCustomerApplication.class, args);
     }
 }
