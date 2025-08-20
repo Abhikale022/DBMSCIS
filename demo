@@ -1,38 +1,11 @@
-poc for your api making..
-react
-component
-service
-it has to use axios
- 
-spring boot
-main
-controller
-both needs to be coded
- 
- 
-in controller we need to write a function
- 
-whose input is Student  -- rollno, name, science, maths.
-return type is ReportCard --rollno, name, grade   -- Good, Better
-Good , science  maths are both more than 75.
-    in other cases grade as average.
- 
-Function Design
- 
-  ReportCard   whocares(Student student)
-    some stupid logic..
- 
-Controller...
-http status code should be 200, in case ReportCard grade is good.
-http status code should be 406.. in case reportCArd grade is not good.
- 
- 
-react ui..
-component there will be four textboxes.
-rollno
-name
-science
-maths..
-[ contact spring ]
-We will get back to you.
- 
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
