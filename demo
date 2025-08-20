@@ -1,11 +1,69 @@
-package com.example.bankcustomer.model;
+package com.bank;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.bank.dao.AccountDao;
+import com.bank.dao.AccountDaoImpl;
+import com.bank.model.Account;
 
-@SpringBootApplication(scanBasePackages = "com.example.bankcustomer")
-public class BankCustomerApplication {
+import java.util.List;
+import java.util.Scanner;
+
+public class BankApp {
     public static void main(String[] args) {
-        SpringApplication.run(BankCustomerApplication.class, args);
+        AccountDao accountDao = new AccountDaoImpl();
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n===== Bank Management System =====");
+            System.out.println("1. Add Account");
+            System.out.println("2. View All Accounts");
+            System.out.println("3. Get Account By ID");
+            System.out.println("4. Delete Account");
+            System.out.println("5. Exit");
+            System.out.print("Choose option: ");
+
+            int choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Holder Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Email: ");
+                    String email = sc.nextLine();
+                    System.out.print("Enter Balance: ");
+                    double balance = sc.nextDouble();
+
+                    Account account = new Account(name, email, balance);
+                    accountDao.addAccount(account);
+                    break;
+
+                case 2:
+                    List<Account> accounts = accountDao.getAllAccounts();
+                    accounts.forEach(System.out::println);
+                    break;
+
+                case 3:
+                    System.out.print("Enter Account ID: ");
+                    int id = sc.nextInt();
+                    Account acc = accountDao.getAccountById(id);
+                    System.out.println(acc != null ? acc : "❌ Account not found");
+                    break;
+
+                case 4:
+                    System.out.print("Enter Account ID to delete: ");
+                    int deleteId = sc.nextInt();
+                    boolean deleted = accountDao.deleteAccount(deleteId);
+                    System.out.println(deleted ? "✅ Account deleted" : "❌ Account not found");
+                    break;
+
+                case 5:
+                    System.out.println("👋 Exiting...");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("❌ Invalid choice");
+            }
+        }
     }
 }
