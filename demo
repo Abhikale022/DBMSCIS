@@ -1,25 +1,12 @@
-package com.example.demo.controller;
+import axios from "axios";
 
-import com.example.demo.model.Student;
-import com.example.demo.model.ReportCard;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+const API_URL = "http://localhost:8080/api/student";
 
-@RestController
-@RequestMapping("/api")
-public class StudentController {
-
-    @PostMapping("/report")
-    public ResponseEntity<ReportCard> whocares(@RequestBody Student student) {
-        String grade;
-
-        if (student.getScience() > 75 && student.getMaths() > 75) {
-            grade = "Good";
-            return new ResponseEntity<>(new ReportCard(student.getRollno(), student.getName(), grade), HttpStatus.OK);
-        } else {
-            grade = "Average";
-            return new ResponseEntity<>(new ReportCard(student.getRollno(), student.getName(), grade), HttpStatus.NOT_ACCEPTABLE);
-        }
-    }
-}
+export const getReportCard = async (student) => {
+  try {
+    const response = await axios.post(`${API_URL}/report`, student);
+    return response;
+  } catch (error) {
+    return error.response; // return error response for status 406
+  }
+};
