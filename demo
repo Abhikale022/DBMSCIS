@@ -1,82 +1,16 @@
-import React, { useState } from "react";
-import { getReportCard } from "../services/studentService";
+package com.example.bankcustomer.config;
 
-function StudentForm() {
-  const [student, setStudent] = useState({
-    rollno: "",
-    name: "",
-    science: "",
-    maths: "",
-  });
-  const [message, setMessage] = useState("");
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-  const handleChange = (e) => {
-    setStudent({ ...student, [e.target.name]: e.target.value });
-  };
+public class DBConnection {
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await getReportCard(student);
+    private static final String URL = "jdbc:postgresql://localhost:5432/bankdb";
+    private static final String USERNAME = "postgres";
+    private static final String PASSWORD = "yourpassword";
 
-    if (response.status === 200) {
-      setMessage("✅ Eligible for science!");
-    } else if (response.status === 406) {
-      setMessage("❌ We will get back to you.");
-    } else {
-      setMessage("⚠️ Something went wrong.");
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
-  };
-
-  return (
-    <div style={{ margin: "30px", textAlign: "center" }}>
-      <h2>Student Report Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="number"
-            name="rollno"
-            placeholder="Roll No"
-            value={student.rollno}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={student.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="number"
-            name="science"
-            placeholder="Science Marks"
-            value={student.science}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="number"
-            name="maths"
-            placeholder="Maths Marks"
-            value={student.maths}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Contact Spring</button>
-      </form>
-
-      {message && <h3 style={{ marginTop: "20px" }}>{message}</h3>}
-    </div>
-  );
 }
-
-export default StudentForm;
