@@ -1,26 +1,11 @@
-package com.example.check.controller;
+package com.example.check.repository;
 
-import com.example.check.model.NumberResponse;
-import com.example.check.repository.NumberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Repository;
 
-@RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000") // allow React
-public class NumberController {
+@Repository
+public class NumberRepository {
 
-    @Autowired
-    private NumberRepository numberRepository;
-
-    @GetMapping("/check/{num}")
-    public ResponseEntity<NumberResponse> checkMultipleOfFive(@PathVariable int num) {
-        if (numberRepository.isMultipleOfFive(num)) {
-            return new ResponseEntity<>(new NumberResponse("yes"), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(new NumberResponse("no"), HttpStatus.BAD_REQUEST);
-        }
+    public boolean isMultipleOfFive(int num) {
+        return num % 5 == 0;
     }
 }
