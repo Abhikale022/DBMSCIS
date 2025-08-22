@@ -1,11 +1,17 @@
-package com.example.check;
+package com.example.check.model;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+public class NumberResponse {
+    private String message;
 
-@SpringBootApplication
-public class CheckMultipleApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(CheckMultipleApplication.class, args);
+    public NumberResponse(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
