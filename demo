@@ -3,15 +3,15 @@ import LocationService from "../services/LocationService";
 
 function CitySearch() {
   const [city, setCity] = useState("");
-  const [pincodes, setPincodes] = useState([]);
+  const [result, setResult] = useState([]);
 
   const handleSearch = () => {
     LocationService.getPincodesByCity(city)
       .then((response) => {
-        setPincodes(response.data);
+        setResult(response.data);
       })
       .catch(() => {
-        setPincodes([]);
+        setResult([]);
         alert("No pincodes found for this city!");
       });
   };
@@ -27,14 +27,11 @@ function CitySearch() {
       />
       <button onClick={handleSearch}>Search</button>
 
-      {pincodes.length > 0 && (
+      {result && (
         <div>
-          <h3>Pincodes in {city}:</h3>
-          <ul>
-            {pincodes.map((pincode, index) => (
-              <li key={index}>{pincode}</li>
-            ))}
-          </ul>
+          <p><b>City:</b> {result.city}</p>
+          <p><b>Area:</b> {result.area}</p>
+          <p><b>Pincode:</b> {result.pincode}</p>
         </div>
       )}
     </div>
