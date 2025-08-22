@@ -3,15 +3,19 @@ import LocationService from "../services/LocationService";
 
 function CitySearch() {
   const [city, setCity] = useState("");
-  const [result, setResult] = useState(null);
+  const [results, setResults] = useState([]);
 
   const handleSearch = () => {
     LocationService.getLocationByCity(city)
       .then((response) => {
-        setResult(response.data);
+        const data = Array.isArray(response.data) ? response.data : [];
+        if (data.length === 0) {
+          alert("No location found for this city!");
+        }
+        setResults(data);
       })
       .catch(() => {
-        setResult(null);
+        setResults([]);
         alert("No location found for this city!");
       });
   };
@@ -27,11 +31,18 @@ function CitySearch() {
       />
       <button onClick={handleSearch}>Search</button>
 
-      {result && (
+      {results.length > 0 && (
         <div>
-          <p><b>City:</b> {result.city}</p>
-          <p><b>Area:</b> {result.area}</p>
-          <p><b>Pincode:</b> {result.pincode}</p>
+          <h3>Results:</h3>
+          <ul>
+            {results.map((location, index) => (
+              <li key={index}>
+                <p><b>City:</b> {location.city}</p>
+                <p><b>Area:</b> {location.area}</p>
+                <p><b>Pincode:</b> {location.pincode}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
