@@ -1,12 +1,43 @@
-package com.example.location.repository;
+package com.example.location.controller;
 
 import com.example.location.model.Location;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.example.location.repository.LocationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface LocationRepository extends JpaRepository<Location, Integer> {
-    List<Location> findByCity(String city);
+@RestController
+@RequestMapping("/api/locations")
+public class LocationController {
+
+    @Autowired
+    private LocationRepository locationRepository;
+
+    // ✅ Get info by Pincode
+    @GetMapping("/pincode/{pincode}")
+    public ResponseEntity<Location> getLocationByPincode(@PathVariable int pincode) {
+        Optional<Location> location = locationRepository.findById(pincode);
+        return location.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // ✅ Get all pincodes for a City
+    @GetMapping("/city/{city}")
+    public ResponseEntity<List<Location>> getPincodesByCity(@PathVariable String city) {
+        List<Location> locations = locationRepository.findByCity(city);
+        if (locations.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(locations);
+    }
+
+    // ✅ Save new location (for testing)
+    @PostMapping
+    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
+        Location saved = locationRepository.save(location);
+        return ResponseEntity.ok(saved);
+    }
 }
