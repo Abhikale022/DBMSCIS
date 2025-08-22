@@ -1,15 +1,41 @@
-import axios from "axios";
+import React, { useState } from "react";
+import LocationService from "../services/LocationService";
 
-const API_BASE_URL = "http://localhost:8080"; // Spring Boot backend
+function PincodeSearch() {
+  const [pincode, setPincode] = useState("");
+  const [result, setResult] = useState(null);
 
-class LocationService {
-  getLocationByPincode(pincode) {
-    return axios.get(`${API_BASE_URL}/pincode/${pincode}`);
-  }
+  const handleSearch = () => {
+    LocationService.getLocationByPincode(pincode)
+      .then((response) => {
+        setResult(response.data);
+      })
+      .catch(() => {
+        setResult(null);
+        alert("No location found for this pincode!");
+      });
+  };
 
-  getPincodesByCity(city) {
-    return axios.get(`${API_BASE_URL}/city/${city}`);
-  }
+  return (
+    <div>
+      <h2>Search by Pincode</h2>
+      <input
+        type="text"
+        value={pincode}
+        onChange={(e) => setPincode(e.target.value)}
+        placeholder="Enter Pincode"
+      />
+      <button onClick={handleSearch}>Search</button>
+
+      {result && (
+        <div>
+          <p><b>City:</b> {result.city}</p>
+          <p><b>Area:</b> {result.area}</p>
+          <p><b>Pincode:</b> {result.pincode}</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default new LocationService();
+export default PincodeSearch;
