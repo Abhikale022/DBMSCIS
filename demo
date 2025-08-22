@@ -1,40 +1,15 @@
-import React, { useState } from "react";
-import checkNumber from "../services/NumberService"; // now a function, not a class
+import axios from "axios";
 
-const NumberForm = () => {
-  const [num, setNum] = useState("");
-  const [result, setResult] = useState(null);
+const API_BASE_URL = "http://localhost:8080"; // Spring Boot backend
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await checkNumber(num);
-      setResult(response.data.message); // "yes" or "no"
-    } catch (error) {
-      if (error.response && error.response.data) {
-        setResult(error.response.data.message); // "no"
-      } else {
-        setResult("Server error");
-      }
-    }
-  };
+class LocationService {
+  getLocationByPincode(pincode) {
+    return axios.get(`${API_BASE_URL}/pincode/${pincode}`);
+  }
 
-  return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h2>Check if number is multiple of 5</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          value={num}
-          onChange={(e) => setNum(e.target.value)}
-          placeholder="Enter number"
-          required
-        />
-        <button type="submit">Check</button>
-      </form>
-      {result && <h3>Result: {result}</h3>}
-    </div>
-  );
-};
+  getPincodesByCity(city) {
+    return axios.get(`${API_BASE_URL}/city/${city}`);
+  }
+}
 
-export default NumberForm;
+export default new LocationService();
