@@ -1,47 +1,12 @@
-package com.example.location.model;
+package com.example.location.repository;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.location.model.Location;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@Entity
-@Table(name = "locations")
-public class Location {
+import java.util.List;
 
-    @Id
-    private int pincode;
-    private String city;
-    private String area;
-
-    public Location() {}
-
-    public Location(int pincode, String city, String area) {
-        this.pincode = pincode;
-        this.city = city;
-        this.area = area;
-    }
-
-    public int getPincode() {
-        return pincode;
-    }
-
-    public void setPincode(int pincode) {
-        this.pincode = pincode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
+@Repository
+public interface LocationRepository extends JpaRepository<Location, Integer> {
+    List<Location> findByCity(String city);
 }
