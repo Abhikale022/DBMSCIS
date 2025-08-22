@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 import LocationService from "../services/LocationService";
 
-function CitySearch() {
-  const [city, setCity] = useState("");
-  const [result, setResult] = useState([]);
+function PincodeSearch() {
+  const [pincode, setPincode] = useState("");
+  const [result, setResult] = useState(null);
 
   const handleSearch = () => {
-    LocationService.getPincodesByCity(city)
+    LocationService.getLocationByPincode(pincode)
       .then((response) => {
         setResult(response.data);
       })
       .catch(() => {
-        setResult([]);
-        alert("No pincodes found for this city!");
+        setResult(null);
+        alert("No location found for this pincode!");
       });
   };
 
   return (
     <div>
-      <h2>Search by City</h2>
+      <h2>Search by Pincode</h2>
       <input
         type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        placeholder="Enter City"
+        value={pincode}
+        onChange={(e) => setPincode(e.target.value)}
+        placeholder="Enter Pincode"
       />
       <button onClick={handleSearch}>Search</button>
 
@@ -38,4 +38,4 @@ function CitySearch() {
   );
 }
 
-export default CitySearch;
+export default PincodeSearch;
