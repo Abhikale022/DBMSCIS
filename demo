@@ -1,11 +1,40 @@
-package com.example.check.repository;
+import React, { useState } from "react";
+import NumberService from "../services/NumberService";
 
-import org.springframework.stereotype.Repository;
+const NumberForm = () => {
+  const [num, setNum] = useState("");
+  const [result, setResult] = useState(null);
 
-@Repository
-public class NumberRepository {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    NumberService.checkNumber(num)
+      .then((response) => {
+        setResult(response.data.message); // "yes" or "no"
+      })
+      .catch((error) => {
+        if (error.response) {
+          setResult(error.response.data.message); // "no"
+        } else {
+          setResult("Server error");
+        }
+      });
+  };
 
-    public boolean isMultipleOfFive(int num) {
-        return num % 5 == 0;
-    }
-}
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2>Check if number is multiple of 5</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="number"
+          value={num}
+          onChange={(e) => setNum(e.target.value)}
+          placeholder="Enter number"
+        />
+        <button type="submit">Check</button>
+      </form>
+      {result && <h3>Result: {result}</h3>}
+    </div>
+  );
+};
+
+export default NumberForm;
