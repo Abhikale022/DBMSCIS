@@ -4,29 +4,16 @@ import LocationService from "../services/LocationService";
 function CitySearch() {
   const [city, setCity] = useState("");
   const [pincodes, setPincodes] = useState([]);
-  const [error, setError] = useState("");
 
-  const handleSearch = async () => {
-    if (!city.trim()) {
-      setError("Please enter a city name");
-      setPincodes([]);
-      return;
-    }
-
-    try {
-      const response = await LocationService.getPincodesByCity(city);
-
-      if (response.data && response.data.length > 0) {
+  const handleSearch = () => {
+    LocationService.getPincodesByCity(city)
+      .then((response) => {
         setPincodes(response.data);
-        setError("");
-      } else {
+      })
+      .catch(() => {
         setPincodes([]);
-        setError("No pincodes found for this city");
-      }
-    } catch (err) {
-      setPincodes([]);
-      setError("Error fetching data from server");
-    }
+        alert("No pincodes found for this city!");
+      });
   };
 
   return (
@@ -39,8 +26,6 @@ function CitySearch() {
         placeholder="Enter City"
       />
       <button onClick={handleSearch}>Search</button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {pincodes.length > 0 && (
         <div>
