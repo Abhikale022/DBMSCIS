@@ -1,4 +1,40 @@
-INSERT INTO locations (pincode, city, area) VALUES (560001, 'Bangalore', 'MG Road');
-INSERT INTO locations (pincode, city, area) VALUES (560002, 'Bangalore', 'Indiranagar');
-INSERT INTO locations (pincode, city, area) VALUES (110001, 'Delhi', 'Connaught Place');
-INSERT INTO locations (pincode, city, area) VALUES (400001, 'Mumbai', 'Colaba');
+import React, { useState } from "react";
+import checkNumber from "../services/NumberService";
+
+const NumberForm = () => {
+  const [num, setNum] = useState("");
+  const [result, setResult] = useState(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    checkNumber(num)
+      .then((response) => {
+        setResult(response.data.message); // "yes" or "no"
+      })
+      .catch((error) => {
+        if (error.response) {
+          setResult(error.response.data.message); // "no"
+        } else {
+          setResult("Server error");
+        }
+      });
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2>Check if number is multiple of 5</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="number"
+          value={num}
+          onChange={(e) => setNum(e.target.value)}
+          placeholder="Enter number"
+        />
+        <button type="submit">Check</button>
+      </form>
+      {result && <h3>Result: {result}</h3>}
+    </div>
+  );
+};
+
+export default NumberForm;
