@@ -1,23 +1,22 @@
 import React, { useState } from "react";
-import checkNumber from "../services/NumberService";
+import checkNumber from "../services/NumberService"; // now a function, not a class
 
 const NumberForm = () => {
   const [num, setNum] = useState("");
   const [result, setResult] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    checkNumber(num)
-      .then((response) => {
-        setResult(response.data.message); // "yes" or "no"
-      })
-      .catch((error) => {
-        if (error.response) {
-          setResult(error.response.data.message); // "no"
-        } else {
-          setResult("Server error");
-        }
-      });
+    try {
+      const response = await checkNumber(num);
+      setResult(response.data.message); // "yes" or "no"
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setResult(error.response.data.message); // "no"
+      } else {
+        setResult("Server error");
+      }
+    }
   };
 
   return (
@@ -29,6 +28,7 @@ const NumberForm = () => {
           value={num}
           onChange={(e) => setNum(e.target.value)}
           placeholder="Enter number"
+          required
         />
         <button type="submit">Check</button>
       </form>
