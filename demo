@@ -1,11 +1,47 @@
-import axios from "axios";
+package com.example.location.model;
 
-const API_URL = "http://localhost:8080/api/check";
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-class NumberService {
-  checkNumber(num) {
-    return axios.get(`${API_URL}/${num}`);
-  }
+@Entity
+@Table(name = "locations")
+public class Location {
+
+    @Id
+    private int pincode;
+    private String city;
+    private String area;
+
+    public Location() {}
+
+    public Location(int pincode, String city, String area) {
+        this.pincode = pincode;
+        this.city = city;
+        this.area = area;
+    }
+
+    public int getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(int pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 }
-
-export default new NumberService();
