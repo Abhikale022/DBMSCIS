@@ -1,7 +1,4 @@
-DROP TABLE IF EXISTS locations;
-
-CREATE TABLE locations (
-    pincode INT PRIMARY KEY,
-    city VARCHAR(100) NOT NULL,
-    area VARCHAR(100) NOT NULL
-);
+INSERT INTO locations (pincode, city, area) VALUES (560001, 'Bangalore', 'MG Road');
+INSERT INTO locations (pincode, city, area) VALUES (560002, 'Bangalore', 'Indiranagar');
+INSERT INTO locations (pincode, city, area) VALUES (110001, 'Delhi', 'Connaught Place');
+INSERT INTO locations (pincode, city, area) VALUES (400001, 'Mumbai', 'Colaba');
