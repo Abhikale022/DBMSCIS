@@ -1,41 +1,44 @@
 import React, { useState } from "react";
 import LocationService from "../services/LocationService";
 
-function PincodeSearch() {
-  const [pincode, setPincode] = useState("");
-  const [result, setResult] = useState(null);
+function CitySearch() {
+  const [city, setCity] = useState("");
+  const [pincodes, setPincodes] = useState([]);
 
   const handleSearch = () => {
-    LocationService.getLocationByPincode(pincode)
+    LocationService.getPincodesByCity(city)
       .then((response) => {
-        setResult(response.data);
+        setPincodes(response.data);
       })
       .catch(() => {
-        setResult(null);
-        alert("No location found for this pincode!");
+        setPincodes([]);
+        alert("No pincodes found for this city!");
       });
   };
 
   return (
     <div>
-      <h2>Search by Pincode</h2>
+      <h2>Search by City</h2>
       <input
         type="text"
-        value={pincode}
-        onChange={(e) => setPincode(e.target.value)}
-        placeholder="Enter Pincode"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        placeholder="Enter City"
       />
       <button onClick={handleSearch}>Search</button>
 
-      {result && (
+      {pincodes.length > 0 && (
         <div>
-          <p><b>City:</b> {result.city}</p>
-          <p><b>Area:</b> {result.area}</p>
-          <p><b>Pincode:</b> {result.pincode}</p>
+          <h3>Pincodes in {city}:</h3>
+          <ul>
+            {pincodes.map((pincode, index) => (
+              <li key={index}>{pincode}</li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
   );
 }
 
-export default PincodeSearch;
+export default CitySearch;
